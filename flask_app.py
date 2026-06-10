@@ -1,19 +1,17 @@
 from flask import Flask, render_template, redirect, url_for, session
 from playcard import get_card_name
 import blackjack, blackjack_eu, whist
-import os
 
 SUPPORTED_GAMES = {'blackjack': blackjack, 'blackjack_eu': blackjack_eu, 'whist': whist}
 app = Flask(__name__)
 
-# 老师原版密钥写法，完全没改动
-app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))
+# 固定密钥，解决Vercel多实例会话丢失、闪跳问题
+app.secret_key = "game_fixed_key_20260610_abcdef"
 
-# ---------------- 仅新增这3行，适配Vercel HTTPS环境 ----------------
+# Vercel HTTPS 必备配置，保证Cookie正常生效
 app.config['PERMANENT_SESSION_LIFETIME'] = 86400
 app.config['SESSION_COOKIE_SAMESITE'] = "Lax"
 app.config['SESSION_COOKIE_SECURE'] = True
-# -----------------------------------------------------------------
 
 @app.route('/')
 def index():
@@ -84,4 +82,4 @@ def utility_processor():
     return dict(enumerate=enumerate, get_card_name=get_card_name)
 
 if __name__ == '__main__':
-    app.run(port=80)
+    app.run()
