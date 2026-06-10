@@ -11,8 +11,5 @@
       "src": "/(.*)",
       "dest": "flask_app.py"
     }
-  ],
-  "env": {
-    "PYTHONUNBUFFERED": "1"
-  }
+  ]
 }
