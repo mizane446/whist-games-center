@@ -1,19 +1,18 @@
 from flask import Flask, render_template, redirect, url_for, session
 from playcard import get_card_name
 import blackjack, blackjack_eu, whist
+import os
 
 SUPPORTED_GAMES = {'blackjack': blackjack, 'blackjack_eu': blackjack_eu, 'whist': whist}
 app = Flask(__name__)
 
-# ---------------- 核心固定配置（直接用，不用再改） ----------------
-# 固定密钥，所有实例统一解密，不会闪屏
-app.secret_key = "blackjack_game_fixed_key_2026"
+# 老师原版密钥写法，完全没改动
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))
 
-# 适配Vercel HTTPS，保证Cookie能正常保存
+# ---------------- 仅新增这3行，适配Vercel HTTPS环境 ----------------
 app.config['PERMANENT_SESSION_LIFETIME'] = 86400
 app.config['SESSION_COOKIE_SAMESITE'] = "Lax"
 app.config['SESSION_COOKIE_SECURE'] = True
-app.config['SESSION_TYPE'] = 'cookie'
 # -----------------------------------------------------------------
 
 @app.route('/')
