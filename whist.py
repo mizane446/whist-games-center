@@ -21,7 +21,7 @@ TEAM = {
     'west': 'east_west'
 }
 
-# ====================== HELPERS ======================
+
 
 def get_next_player(player):
     """Return the next player in counter-clockwise order."""
@@ -137,7 +137,7 @@ def can_win_trick(current_trick, leader, trump_suit, player_hand, all_hands):
     # Better to rewrite.
     pass
 
-# We'll implement separate helper functions that use the full hands.
+
 
 def get_best_card_in_trick(trick, leader, trump_suit):
     """Return (best_player, best_card, best_rank, best_is_trump) for the current trick."""
